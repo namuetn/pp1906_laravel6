@@ -42,3 +42,8 @@ Route::get('/contact', function () {
 Route::get('/product', function () {
     return view('layouts_wish.product_shop');
 });
+
+Route::get('/products', 'ProductController@index')->name('products.index');
+
+Route::get('/products/{product}', 'ProductController@show')->name('products.show');
+
