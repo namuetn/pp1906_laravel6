@@ -24,4 +24,4 @@
 <script src="theme/plugins/parallax-js-master/parallax.min.js"></script>
 <script src="theme/plugins/colorbox/jquery.colorbox-min.js"></script>
 <script src="theme/js/custom.js"></script>
-@endsection
+@endsection 
