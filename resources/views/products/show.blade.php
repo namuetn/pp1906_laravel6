@@ -12,6 +12,11 @@
 @endsection
 
 @section('content')<br><br><br><br><br><br><br><br><br><br>
+@if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
 <div>Show product</div>
 <h3>Name: {{$product->name}}</h3>
 <h3>Name: {{$product->content}}</h3>
