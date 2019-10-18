@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProductController extends Controller
 {
@@ -43,9 +45,12 @@ class ProductController extends Controller
             'price'
         ]);
 
+        $data['user_id'] = Auth::id();
+
         try {
             $product = Product::create($data);
         } catch (\Exception $e) {
+           \Log::error($e);
            return back()->withInput($data)->with('status', 'Create failed!'); 
         }
 
@@ -60,7 +65,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         $data = ['product' => $product];
         // $data = compact('product');
         return view('products.show', $data);
@@ -74,7 +79,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view('products.edit', ['product' => $product]);
     }
 
     /**
@@ -84,9 +90,24 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        $data = $request->only([
+            'name',
+            'content',
+            'quantity',
+            'price'
+        ]);
+        $product = Product::findOrFail($id);
+        try {
+            $product->update($data);    
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return back()->withInput($data)->with('status', 'Update faild');
+        }
+
+        return redirect('products/' . $product->id)->with('status', 'Update success');
     }
 
     /**
@@ -97,6 +118,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        try {
+            $product->delete();
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return back()->with('status', 'Delete faild');
+        }
+
+        return redirect('products');
     }
 }

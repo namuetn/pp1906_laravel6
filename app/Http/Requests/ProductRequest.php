@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProductRequest extends FormRequest
 {
@@ -13,7 +14,11 @@ class ProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if(Auth::check()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -34,7 +39,7 @@ class ProductRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.unique' => 'Cần nhập cả chữ và số'
+            'name.unique' => 'Tên ngừoi dùng đã bị trùng lặp!'
         ];
     }
 }
