@@ -43,6 +43,7 @@ Route::get('/product', function () {
     return view('layouts_wish.product_shop');
 });
 
+//---------------------------------------------
 Route::get('/products', 'ProductController@index')->name('products.index');
 
 Route::get('/products/create', 'ProductController@create')->name('products.create');
@@ -50,6 +51,24 @@ Route::get('/products/create', 'ProductController@create')->name('products.creat
 Route::post('products', 'ProductController@store')->name('products.store');
 
 Route::get('/products/{product}', 'ProductController@show')->name('products.show');
+
+Route::get('/products/{product}/edit', 'ProductController@edit')->name('products.edit');
+
+Route::put('/products/{product}', 'ProductController@update')->name('products.update');
+
+Route::delete('/products/{product}', 'ProductController@destroy')->name('products.destroy');
+
+
+
+//--------------------------------------------------
+
+Route::get('/customer', 'CustomerController@index')->name('customer.index');
+
+//Route::get('/customer/create', 'CustomerController@create')->name('customer.create');
+
+//Route::post('customer', 'CustomerController@store')->name('customer.store');
+
+Route::get('/customer/{customer}', 'CustomerController@show')->name('customer.show');
 
 
 
