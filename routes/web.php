@@ -61,14 +61,13 @@ Route::delete('/products/{product}', 'ProductController@destroy')->name('product
 
 
 //--------------------------------------------------
+Route::get('/admin', function() {
+	view('admin.dashboard');
+})->name('admin.dashboard')->middleware('auth');
 
-Route::get('/customer', 'CustomerController@index')->name('customer.index');
-
-//Route::get('/customer/create', 'CustomerController@create')->name('customer.create');
-
-//Route::post('customer', 'CustomerController@store')->name('customer.store');
-
-Route::get('/customer/{customer}', 'CustomerController@show')->name('customer.show');
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
+	Route::resource('products', 'ProductController');
+});
 
 
 

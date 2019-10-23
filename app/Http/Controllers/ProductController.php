@@ -16,8 +16,11 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('products.index');
+    {   
+
+        $products = Product::paginate(config('product.page_size'));
+        
+        return view('/products.index', ['products' => $products]);
     }
 
     /**
@@ -27,7 +30,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        return view('/products.create');
     }
 
     /**
@@ -38,6 +41,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+        
         $data = $request->only([
             'name',
             'content',
@@ -54,7 +58,7 @@ class ProductController extends Controller
            return back()->withInput($data)->with('status', 'Create failed!'); 
         }
 
-        return redirect('products/' . $product->id)->with('status', 'Create success');
+        return redirect('/products/' . $product->id)->with('status', 'Create success');
     }
 
     /**
@@ -68,7 +72,8 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $data = ['product' => $product];
         // $data = compact('product');
-        return view('products.show', $data);
+
+        return view('/products.show', $data);
     }
 
     /**
@@ -80,7 +85,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('products.edit', ['product' => $product]);
+
+        return view('/products.edit', ['product' => $product]);
     }
 
     /**
@@ -98,7 +104,9 @@ class ProductController extends Controller
             'quantity',
             'price'
         ]);
+
         $product = Product::findOrFail($id);
+        
         try {
             $product->update($data);    
         } catch (\Exception $e) {
@@ -107,7 +115,7 @@ class ProductController extends Controller
             return back()->withInput($data)->with('status', 'Update faild');
         }
 
-        return redirect('products/' . $product->id)->with('status', 'Update success');
+        return redirect('/products/' . $product->id)->with('status', 'Update success');
     }
 
     /**
@@ -128,6 +136,6 @@ class ProductController extends Controller
             return back()->with('status', 'Delete faild');
         }
 
-        return redirect('products');
+        return redirect('/products');
     }
 }

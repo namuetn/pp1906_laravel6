@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="theme/styles/responsive.css">
 @endsection
 
-@section('content')<br><br><br><br><br><br><br><br><br><br><br><br>
+@section('content')
 @if (session('status'))
     <div class="alert alert-success">
         {{ session('status') }}
