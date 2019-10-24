@@ -69,7 +69,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->namespace('Admin')
 	Route::resource('products', 'ProductController');
 });
 
-
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
+	Route::resource('orders', 'OrderController');
+});
 
 
 

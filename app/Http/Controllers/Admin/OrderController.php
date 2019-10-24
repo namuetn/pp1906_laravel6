@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Http\Requests\ProductRequest;
+use App\Models\Order;
+// use App\Http\Requests\orderRequest;
 use Illuminate\Support\Facades\Auth;
 
 
-class ProductController extends Controller
+class orderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +17,9 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        $products = Product::paginate(config('product.page_size'));
-        
-        return view('/products.index', ['products' => $products]);
+    {
+        $orders = Order::all();
+        return view('admin.orders.index', ['orders' => $orders]);
     }
 
     /**
@@ -28,8 +28,8 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    { 
-        return view('/products.create');
+    {
+        return view('admin.orders.create');
     }
 
     /**
@@ -38,26 +38,26 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
-        
         $data = $request->only([
-            'name',
-            'content',
-            'quantity',
-            'price'
+            'user_id',
+            'total_price',
+            'description',
         ]);
 
         $data['user_id'] = Auth::id();
 
         try {
-            $product = Product::create($data);
+            $order = Order::create($data);
         } catch (\Exception $e) {
            \Log::error($e);
+
            return back()->withInput($data)->with('status', 'Create failed!'); 
+
         }
 
-        return redirect('/products/' . $product->id)->with('status', 'Create success');
+        return redirect('admin/orders/' . $order->id)->with('status', 'Create success');
     }
 
     /**
@@ -68,11 +68,10 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        $data = ['product' => $product];
-        // $data = compact('product');
-
-        return view('/products.show', $data);
+        $order = Order::findOrFail($id);
+        $data = ['order' => $order];
+        // $data = compact('order');
+        return view('admin.orders.show', $data);
     }
 
     /**
@@ -83,9 +82,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
-
-        return view('/products.edit', ['product' => $product]);
+        $order = Order::findOrFail($id);
+        return view('admin.orders.edit', ['order' => $order]);
     }
 
     /**
@@ -95,26 +93,23 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $data = $request->only([
-            'name',
-            'content',
-            'quantity',
-            'price'
+            'user_id',
+            'total_price',
+            'description',
         ]);
-
-        $product = Product::findOrFail($id);
-        
+        $order = Order::findOrFail($id);
         try {
-            $product->update($data);    
+            $order->update($data);    
         } catch (\Exception $e) {
             \Log::error($e);
 
             return back()->withInput($data)->with('status', 'Update faild');
         }
 
-        return redirect('/products/' . $product->id)->with('status', 'Update success');
+        return redirect('admin/orders/' . $order->id)->with('status', 'Update success');
     }
 
     /**
@@ -125,16 +120,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
+        $order = Order::findOrFail($id);
 
         try {
-            $product->delete();
+            $order->delete();
         } catch (\Exception $e) {
             \Log::error($e);
 
             return back()->with('status', 'Delete faild');
         }
 
-        return redirect('/products');
+        return redirect('admin/orders')->with('status', 'Delete success');
     }
 }
