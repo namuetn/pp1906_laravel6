@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 2',
+    'title' => 'AdminLTE ',
 
     'title_prefix' => '',
 
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Thanh Nam</b>',
 
     'logo_mini' => '<b>A</b>LT',
 
@@ -139,6 +139,13 @@ return [
         [
             'text'        => 'Products',
             'url'         => 'admin/products',
+            'icon'        => 'far fa-file',
+            'label'       => 4,
+            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Categories',
+            'url'         => 'admin/categories',
             'icon'        => 'far fa-file',
             'label'       => 4,
             'label_color' => 'success',

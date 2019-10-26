@@ -70,8 +70,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->namespace('Admin')
 });
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
-	Route::resource('orders', 'OrderController');
+
+	Route::resource('categories', 'CategoryController');
 });
+
+
 
 
 
