@@ -13,8 +13,17 @@ class Category extends Model
     ];
 
     public function parent() {
+    	
     	return $this->belongsTo('App\Models\Category');
     }
 
-    
+   	public function user() {
+        return $this->belongsTo('App\User');
+
+    }
+
+    public function products() {
+
+    	return $this->hasMany('App\Models\Product');
+    }
 }

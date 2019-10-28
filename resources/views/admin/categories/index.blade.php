@@ -27,7 +27,7 @@
                 <tr>
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->parent->name ?? '' }}</td>
-                    <td>{{ $category->user_id}}</td>
+                    <td>{{ $category->user ? $category->user->name : '' }}</td>
                     <td>{{ $category->created_at }}</td>
                     <td>{{ $category->updated_at }}</td>
                     
