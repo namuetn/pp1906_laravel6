@@ -43,11 +43,38 @@ Route::get('/product', function () {
     return view('layouts_wish.product_shop');
 });
 
+//---------------------------------------------
 Route::get('/products', 'ProductController@index')->name('products.index');
 
 Route::get('/products/create', 'ProductController@create')->name('products.create');
 
+Route::post('products', 'ProductController@store')->name('products.store');
+
 Route::get('/products/{product}', 'ProductController@show')->name('products.show');
+
+Route::get('/products/{product}/edit', 'ProductController@edit')->name('products.edit');
+
+Route::put('/products/{product}', 'ProductController@update')->name('products.update');
+
+Route::delete('/products/{product}', 'ProductController@destroy')->name('products.destroy');
+
+
+
+//--------------------------------------------------
+Route::get('/admin', function() {
+	view('admin.dashboard');
+})->name('admin.dashboard')->middleware('auth');
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
+	Route::resource('products', 'ProductController');
+});
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
+
+	Route::resource('categories', 'CategoryController');
+});
+
+
 
 
 
