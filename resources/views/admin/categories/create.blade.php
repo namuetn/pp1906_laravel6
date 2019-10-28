@@ -47,7 +47,7 @@
 
                             <div class="col-md-6">
 
-                                <select id="parent_id" class="form-control @error('parent_id') is-invalid @enderror" name="parent_id"  required autocomplete="parent_id" value="{{old('parent_id')}}"  >
+                                <select id="parent_id" class="form-control @error('parent_id') is-invalid @enderror" name="parent_id" value="{{old('parent_id')}}"  >
                                     <option value="0">Select Parent</option>
                                     @foreach($categories as $category)
                                         <option value="{{$category->id}}">{{$category->name}}</option>                                      

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -29,7 +31,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::all();
+
+        return view('admin.products.create', ['categories' => $categories]);
     }
 
     /**
@@ -40,15 +44,17 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+
         $data = $request->only([
             'name',
             'content',
+            'category_id',
             'quantity',
             'price'
         ]);
 
         $data['user_id'] = Auth::id();
-
+        dd($data);
         try {
             $product = Product::create($data);
         } catch (\Exception $e) {
