@@ -31,7 +31,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::whereNull('parent_id')->get();
 
         return view('admin.products.create', ['categories' => $categories]);
     }
@@ -54,7 +54,7 @@ class ProductController extends Controller
         ]);
 
         $data['user_id'] = Auth::id();
-        dd($data);
+
         try {
             $product = Product::create($data);
         } catch (\Exception $e) {

@@ -26,7 +26,7 @@
 							<img src="theme/images/shopping-bag.svg" alt="">
 							<div class="cart_num_container">
 								<div class="cart_num_inner">
-									<div class="cart_num">1</div>
+									<div class="cart_num">{{ showCartQuantity() }}</div>
 								</div>
 							</div>
 						</div>
