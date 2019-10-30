@@ -30,7 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::whereNull('parent_id')->get();
         
         return view('admin.categories.create', ['categories' => $categories]);
     }
