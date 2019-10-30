@@ -58,7 +58,9 @@ Route::put('/products/{product}', 'ProductController@update')->name('products.up
 
 Route::delete('/products/{product}', 'ProductController@destroy')->name('products.destroy');
 
-
+Route::middleware(['auth'])->group(function () {
+    Route::post('/orders','OrderController@store')->name('orders.store');
+});
 
 //--------------------------------------------------
 Route::get('/admin', function() {
@@ -73,6 +75,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->namespace('Admin')
 
 	Route::resource('categories', 'CategoryController');
 });
+
+//-----------------ajax---------------------------
+
 
 
 
