@@ -15,6 +15,7 @@ class Order extends Model
         'user_id',
         'total_price',
         'description',
+        'status'
     ];
     public function user() {
         return $this->belongsTo('App\User');
