@@ -21,7 +21,7 @@
 				</div>
 				<div class="shopping">
 					<!-- Cart -->
-					<a href="#">
+					<a href="/carts">
 						<div class="cart">
 							<img src="theme/images/shopping-bag.svg" alt="">
 							<div class="cart_num_container">

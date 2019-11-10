@@ -16,7 +16,7 @@ class OrderController extends Controller
    
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage. 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -49,7 +49,8 @@ class OrderController extends Controller
                 $product->orders()->attach($order->id, ['quantity' => 1, 'price' => $product->price]);
             }
 
-          
+            $totalPrice = $this->totalPrice($order);
+            $order->update(['total_price' => $totalPrice]);  
         } catch (\Exception $e) {
             \Log::error($e);
 
@@ -69,4 +70,76 @@ class OrderController extends Controller
         return response()->json($result);
     }
     
-}
+    /** 
+    *   Caculater 
+    *   @param App\Models|Order $order
+    *   
+    */
+    public function totalPrice($order)
+    {
+        $totalPrice = 0;
+
+        foreach($order->products as $product) {
+            $totalPrice += $product->price * $product->pivot->quantity;
+        }
+
+        return $totalPrice;
+    }
+
+
+    public function showCart() 
+    {
+        $currentUser = auth()->user();
+        $order = $currentUser->orders->where('status', 1)->first();
+
+        return view('orders.show', compact('order'));
+    }
+
+    /**
+    *   Destroy a product in order
+    *   return void 
+    */
+    public function updateCart(Request $request)
+    {
+        $quantityNumber = $request->quantity;
+        $currentUserId = auth()->id();
+        $order = Order::where('user_id', $currentUserId)->where('status', 1)->first(); 
+
+        try {
+            $productOrder = ProductOrder::where('order_id', $order->id)->where('quantity', $quantityNumber)->first();  
+
+            $productOrder->update(['quantity' => $quantityNumber]);
+            
+            $totalPrice = $this->totalPrice($order);
+            $order->update(['total_price' => $totalPrice]);
+        } catch (\Exception $e) {
+           \Log::error($e); 
+
+           return back()->withInput($data)->with('status', 'Update failed!'); 
+        }
+
+        return redirect('/carts')->with('status', 'Create success');
+    }
+
+    public function destroyProduct(Request $request) 
+    {
+        $deleteFlag = true;
+
+        $productId = $request->product_id;
+        $currentUser = auth()->user();
+        $order  = $currentUser->orders->where('status', 1)->first();
+
+        try {
+            $order->products()->detach($productId);
+
+            $totalPrice = $this->totalPrice($order);
+            $order->update(['total_price' => $totalPrice]);  
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            $deleteFlag = false;
+        }
+
+        return response()->json(['status' => $deleteFlag, 'total_price' => $totalPrice]);
+    }
+ }

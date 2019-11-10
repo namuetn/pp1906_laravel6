@@ -59,7 +59,11 @@ Route::put('/products/{product}', 'ProductController@update')->name('products.up
 Route::delete('/products/{product}', 'ProductController@destroy')->name('products.destroy');
 
 Route::middleware(['auth'])->group(function () {
-    Route::post('/orders','OrderController@store')->name('orders.store');
+    Route::post('orders','OrderController@store')->name('orders.store');
+    Route::get('carts', 'OrderController@showCart')->name('orders.show');
+    Route::put('carts/update', 'OrderController@updateCart')->name('orders.update');
+    Route::post('orders/delete', 'OrderController@destroyProduct')->name('orders.product.destroy');
+
 });
 
 //--------------------------------------------------
