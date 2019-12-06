@@ -238,7 +238,14 @@
 						<!-- Product -->
 						@foreach($products as $product)
 						<div class="product">
-							<div class="product_image"><img src="theme/images/product_1.jpg" alt=""></div>
+							<div class="product_image">
+								@if( $product->image)
+								
+                                    <a href="#" class="img-prod"><img class="img-fluid" src=" {{ asset(config('product.image_path') . $product->image) }}" alt="{{ $product->image }}">
+                                @else    
+                                    <a href="#" class="img-prod"><img class="img-fluid" src="theme/images/product_2.jpg" alt="{{ $product->image }}">
+                                @endif
+							</div>
 							<div class="rating rating_4" data-rating="4">
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>

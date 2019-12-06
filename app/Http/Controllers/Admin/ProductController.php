@@ -50,10 +50,18 @@ class ProductController extends Controller
             'content',
             'category_id',
             'quantity',
-            'price'
+            'price',
+            'image'
         ]);
 
         $data['user_id'] = Auth::id();
+        $uploaded = $this->upload($data['image']);
+    
+        if (!$uploaded['status']) {
+            return back()->with('status', $uploaded['msg']);
+        }
+
+        $data['image'] = $uploaded['file_name'];
 
         try {
             $product = Product::create($data);
@@ -64,6 +72,8 @@ class ProductController extends Controller
 
         return redirect('admin/products')->with('status', 'Create success');
     }
+
+    
 
     /**
      * Display the specified resource.
@@ -104,7 +114,8 @@ class ProductController extends Controller
             'name',
             'content',
             'quantity',
-            'price'
+            'price',    
+            'image'
         ]);
         $product = Product::findOrFail($id);
         try {
@@ -137,5 +148,38 @@ class ProductController extends Controller
         }
 
         return redirect('admin/products')->with('status', 'Delete success');
+    }
+
+    private function upload($file) 
+    {
+        $destinationFolder = public_path() . "/" . config('product.image_path');
+
+        try {
+            $fileName = date('Ymd_His') . '_' . $file->getClientOriginalName();
+            
+            $ext = $file->getClientOriginalExtension();
+            if($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif") {
+                $result = [
+                    'status' => false,
+                    'msg' => 'Sorry, only JPG, JPEG, PNG & GIF files are allowed.',
+                ];
+            }
+
+            $file->move($destinationFolder, $fileName);
+
+            $result = [
+                'status' => true,
+                'file_name' => $fileName,
+            ];
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
+
+            $result = [
+                'status' => false,
+                'msg' => $msg,
+            ];
+        }
+
+        return $result;
     }
 }
