@@ -1,4 +1,5 @@
 <?php
 	return [
-		'page_size' => 4 
-	];
+    'page_size' => 9,
+    'image_path' => 'images/',
+];
