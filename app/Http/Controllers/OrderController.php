@@ -69,7 +69,7 @@ class OrderController extends Controller
     
     /** 
     *   Caculater 
-    *   @param App\Models|Order $order
+    *   @param App\Models\Order $order
     *   
     */
     public function totalPrice($order)
@@ -98,24 +98,47 @@ class OrderController extends Controller
     */
     public function updateCart(Request $request)
     {
-        $quantityNumber = $request->quantity;
-        $currentUserId = auth()->id();
-        $order = Order::where('user_id', $currentUserId)->where('status', 1)->first(); 
+        // $quantityNumber = $request->quantity;
+        // $currentUserId = auth()->id();
+        // $order = Order::where('user_id', $currentUserId)->where('status', 1)->first(); 
+
+        // try {
+        //     $productOrder = ProductOrder::where('order_id', $order->id)->where('quantity', $quantityNumber)->first();  
+
+        //     $productOrder->update(['quantity' => $quantityNumber]);
+            
+        //     $totalPrice = $this->totalPrice($order);
+        //     $order->update(['total_price' => $totalPrice]);
+        // } catch (\Exception $e) {
+        //    \Log::error($e); 
+
+        //    return back()->withInput($data)->with('status', 'Update failed!'); 
+        // }
+
+        // return redirect('/carts')->with('status', 'Create success');
+
+
+
+        $updateFlag = true;
+        $productId = $request->product_id;
+        $quantity = $request->quantity;
+        $currentUser = auth()->user();
+        $order = $currentUser->orders()->newOrder()->first();
 
         try {
-            $productOrder = ProductOrder::where('order_id', $order->id)->where('quantity', $quantityNumber)->first();  
-
-            $productOrder->update(['quantity' => $quantityNumber]);
-            
+            $order->products()
+                ->updateExistingPivot($productId, ['quantity' => $quantity]);
             $totalPrice = $this->totalPrice($order);
             $order->update(['total_price' => $totalPrice]);
+            
         } catch (\Exception $e) {
-           \Log::error($e); 
-
-           return back()->withInput($data)->with('status', 'Update failed!'); 
+            \Log::error($e);
+            $updateFlag = false;
         }
-
-        return redirect('/carts')->with('status', 'Create success');
+        return response()->json([
+            'status' => $updateFlag,
+            'total_price' => $totalPrice,
+        ]);
     }
 
     public function destroyProduct(Request $request) 

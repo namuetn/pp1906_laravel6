@@ -6,7 +6,7 @@
 			<nav class="main_nav">
 				<ul>
 					<li><a href="#">home</a></li>
-					<li><a href="#">clothes</a></li>
+					<li><a href="/products">clothes</a></li>
 					<li><a href="categories.html">accessories</a></li>
 					<li><a href="categories.html">lingerie</a></li>
 					<li><a href="contact.html">contact</a></li>
@@ -69,7 +69,7 @@
 		<nav class="menu_nav">
 			<ul class="menu_mm">
 				<li class="menu_mm"><a href="#">home</a></li>
-				<li class="menu_mm"><a href="#">clothes</a></li>
+				<li class="menu_mm"><a href="/products">clothes</a></li>
 				<li class="menu_mm"><a href="#">accessories</a></li>
 				<li class="menu_mm"><a href="#">lingerie</a></li>
 				<li class="menu_mm"><a href="#">contact</a></li>
