@@ -64,7 +64,7 @@
 									@foreach ($order->products as $product)
 									<li class="product-{{ $product->id }} cart_product d-flex flex-md-row flex-column align-items-md-center align-items-start justify-content-start">
 										<!-- Product Image -->
-										<div class="cart_product_image"><img src="theme/images/cart_product_1.jpg" alt=""></div>
+										<div class="cart_product_image"><img src=" {{ asset(config('product.image_path') . $product->image) }}" style="width: 120px" alt=""></div>
 										<!-- Product Name -->
 										<div class="cart_product_name"><a href="product.html">{{ $product->name }}</a></div>
 										<div class="cart_product_info ml-auto">
@@ -76,8 +76,8 @@
 													<div class="product_quantity clearfix">
 														<input id="quantity_input" type="text" pattern="[0-9]*" name="quantity" value="{{ $product->pivot->quantity }}">
 														<div class="quantity_buttons">
-															<div id="quantity_inc_button" class="quantity_inc quantity_control"><i class="fa fa-caret-up" aria-hidden="true"></i></div>
-															<div id="quantity_dec_button" class="quantity_dec quantity_control"><i class="fa fa-caret-down" aria-hidden="true"></i></div>
+															<div id="quantity_inc_button" class="quantity_inc quantity_control"><i  aria-hidden="true"></i></div>
+															<div id="quantity_dec_button" class="quantity_dec quantity_control"><i  aria-hidden="true"></i></div>
 														</div>
 													</div>
 												</div>
