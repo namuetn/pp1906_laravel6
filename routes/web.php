@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -37,17 +37,17 @@ Route::middleware(['auth'])->group(function () {
 });
 
 //--------------------------------------------------
+
 Route::get('/admin', function() {
 	view('admin.dashboard');
-})->name('admin.dashboard')->middleware('auth');
+})->name('admin.dashboard')->middleware(['auth', 'verified']);
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
 	Route::resource('products', 'ProductController');
-});
-
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
 	Route::resource('categories', 'CategoryController');
 });
+
+
 
 //-----------------ajax---------------------------
 
