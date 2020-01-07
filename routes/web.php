@@ -31,9 +31,8 @@ Route::delete('/products/{product}', 'ProductController@destroy')->name('product
 Route::middleware(['auth'])->group(function () {
     Route::post('orders','OrderController@store')->name('orders.store');
     Route::get('carts', 'OrderController@showCart')->name('orders.show');
-    Route::put('carts/update', 'OrderController@updateCart')->name('orders.update');
+    Route::post('orders/update', 'OrderController@updateCart')->name('orders.update');
     Route::post('orders/delete', 'OrderController@destroyProduct')->name('orders.product.destroy');
-
 });
 
 //--------------------------------------------------
