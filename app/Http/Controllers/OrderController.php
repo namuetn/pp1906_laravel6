@@ -98,47 +98,28 @@ class OrderController extends Controller
     */
     public function updateCart(Request $request)
     {
-        // $quantityNumber = $request->quantity;
-        // $currentUserId = auth()->id();
-        // $order = Order::where('user_id', $currentUserId)->where('status', 1)->first(); 
-
-        // try {
-        //     $productOrder = ProductOrder::where('order_id', $order->id)->where('quantity', $quantityNumber)->first();  
-
-        //     $productOrder->update(['quantity' => $quantityNumber]);
-            
-        //     $totalPrice = $this->totalPrice($order);
-        //     $order->update(['total_price' => $totalPrice]);
-        // } catch (\Exception $e) {
-        //    \Log::error($e); 
-
-        //    return back()->withInput($data)->with('status', 'Update failed!'); 
-        // }
-
-        // return redirect('/carts')->with('status', 'Create success');
-
-
 
         $updateFlag = true;
+        $currentUser = auth()->user();
         $productId = $request->product_id;
         $quantity = $request->quantity;
-        $currentUser = auth()->user();
-        $order = $currentUser->orders()->newOrder()->first();
+        $order = $currentUser->orders()->where('status', 1)->first();
 
         try {
-            $order->products()
-                ->updateExistingPivot($productId, ['quantity' => $quantity]);
+            $order->products()->updateExistingPivot($productId, ['quantity' => $quantity]);
             $totalPrice = $this->totalPrice($order);
             $order->update(['total_price' => $totalPrice]);
-            
         } catch (\Exception $e) {
             \Log::error($e);
             $updateFlag = false;
         }
+
         return response()->json([
             'status' => $updateFlag,
             'total_price' => $totalPrice,
+            'quantity' => $order->products->sum('pivot.quantity'),
         ]);
+
     }
 
     public function destroyProduct(Request $request) 
@@ -158,8 +139,15 @@ class OrderController extends Controller
             \Log::error($e);
 
             $deleteFlag = false;
+            $result = ['status' => $deleteFlag,];
         }
 
-        return response()->json(['status' => $deleteFlag, 'total_price' => $totalPrice]);
+        $result = [
+            'status' => $deleteFlag,
+            'quantity' => $order->products->sum('pivot.quantity'),
+            'total_price' => $totalPrice,
+        ];
+
+        return response()->json($result);
     }
  }
