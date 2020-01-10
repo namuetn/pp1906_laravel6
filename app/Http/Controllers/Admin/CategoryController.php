@@ -16,18 +16,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected $categoryService;
-
-    public function __construct(CategoryService $categoryService) {
-        $this->categoryService = $categoryService;
-    }
 
     public function index()
     {
-        // $categories = Category::all();
-        $categories = $this->categoryService->getList(['order_by' => 'name']);
-       
-        return view('admin.categories.index', ['categories' => $categories]);
+        $categories = Category::orderBy('created_at', 'desc')->get();
+
+        return view('admin.categories.index', ['categories' => $categories]);     
     }
 
     /**
@@ -37,7 +31,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = $this->categoryService->getList();        
+        $categories = Category::whereNull('parent_id')->get();     
         return view('admin.categories.create', ['categories' => $categories]);
     }
 
@@ -60,13 +54,16 @@ class CategoryController extends Controller
             $data['parent_id'] = null;
         }
 
-        $storeFlag = $this->categoryService->create($data);
-        
-        if($storeFlag){
-            return redirect('admin/categories/')->with('status', 'Create success');
+        try {
+            $category = Category::create($data);
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return back()->withInput($data)->with('status', 'Create failed!');
         }
-        
-        return back()->withInput($data)->with('status', 'Create failed!'); 
+
+        return redirect('/admin/categories/')
+            ->with('status', 'Create success!');
     }
 
     /**
@@ -114,12 +111,17 @@ class CategoryController extends Controller
             'name',
             'parent_id'
         ]);
-        $updateFlag = $this->categoryService->update($id, $data);
-        if($updateFlag){
-            return redirect('admin/categories')->with('status', 'Update success');
+        $category = Category::findOrFail($id);
+        
+        try {
+            $category->update($data);
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return back()->with('status', 'Update faild.');
         }
 
-        return back()->withInput($data)->with('status', 'Update faild');
+        return redirect('admin/categories/')->with('status', 'Update success.');
     }
 
     /**
@@ -130,10 +132,15 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $deleteFlag = $this->categoryService->delete($data);
-        if($deleteFlag){
-            return redirect('admin/categories')->with('status', 'Delete success');
+        $category = Category::findOrFail($id);
+        try {
+            $category->delete();
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return back()->with('status', 'Delete faild.');
         }
-        return back()->with('status', 'Delete faild');
+
+        return redirect('admin/categories')->with('status', 'Delete success');
     }
 }
