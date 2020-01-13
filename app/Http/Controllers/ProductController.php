@@ -24,14 +24,17 @@ class ProductController extends Controller
         return view('/products.index', ['products' => $products, 'categories' => $categories]);
     }
 
-    public function ajaxCategory(Request $request)
+    public function ajaxHideShowCategory(Request $request)
     {
         $categoryId = $request->category_id;
-        $category = Category::findOrFail($categoryId);
-        $product = Product::where('category_id', $category);
-        $result = ['product' => $product->category->id];
+        // $category = Category::findOrFail($categoryId);
+        $products = Product::where('category_id', $categoryId)->get();
+        // foreach ($products as  $product) {    
+        //     dd($product); 
+        // }
+        // $result = ['product' => $product->category->id];
         
-        return response()->json($result);
+        return response()->json($products);
     }
 
     /**

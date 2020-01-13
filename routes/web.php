@@ -27,7 +27,7 @@ Route::get('/products/{product}', 'ProductController@show')->name('products.show
 Route::get('/products/{product}/edit', 'ProductController@edit')->name('products.edit');
 Route::put('/products/{product}', 'ProductController@update')->name('products.update');
 Route::delete('/products/{product}', 'ProductController@destroy')->name('products.destroy');
-Route::get('/products/category/{category}', 'ProductController@ajaxCategory')->name('products.category.index');
+Route::get('/products/category/{category}', 'ProductController@ajaxHideShowCategory');
 
 
 Route::middleware(['auth'])->group(function () {

@@ -49,7 +49,7 @@
 							<div class="sidebar_section_content">
 								<ul>
 								@foreach($categories as $category)									
-									<li><a class="category-button" data-category-id="{{$category->id}}">{{$category->name}}</a></li>
+									<li><a style="cursor: pointer;" class="category-button" data-category-id="{{$category->id}}">{{$category->name}}</a></li>
 								@endforeach
 								</ul>
 							</div>
