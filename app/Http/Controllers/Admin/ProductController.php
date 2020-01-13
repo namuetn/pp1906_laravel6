@@ -9,16 +9,16 @@ use App\Models\Category;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Auth;
-use App\Services\ProductService;
+// use App\Services\ProductService;
 
 
 class ProductController extends Controller
 {
-    protected $productService;
+    // protected $productService;
 
-    public function __construct(ProductService $productService) {
-        $this->productService = $productService;
-    }
+    // public function __construct(ProductService $productService) {
+    //     $this->productService = $productService;
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +26,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->productService->getList(['order_by' => 'name']);
+        $products = Product::all();
         return view('admin.products.index', ['products' => $products]);
     }
 
@@ -37,7 +37,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = $this->productService->getList();
+        $categories = Category::where('parent_id','<>',null)->get();
 
         return view('admin.products.create', ['categories' => $categories]);
     }
@@ -68,15 +68,16 @@ class ProductController extends Controller
         }
 
         $data['image'] = $uploaded['file_name'];
+        try {
+            $product = Product::create($data);
+        } catch (\Exception $e) {
+            \Log::error($e);
 
-        $storeFlag = $this->productService->create($data);
-
-        if($storeFlag) {
-
-            return redirect('admin/products')->with('status', 'Create success');
+            return back()->withInput($data)->with('status', 'Create failed!');
         }
 
-        return back()->withInput($data)->with('status', 'Create failed!'); 
+        return redirect('/admin/products/')
+            ->with('status', 'Create success!');
     }
 
     
@@ -104,7 +105,13 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', ['product' => $product]);
+        $categories = Category::all();
+        $data = [
+            'product' => $product,
+            'categories' => $categories,
+        ];
+
+        return view('admin.products.edit', $data);
     }
 
     /**
@@ -121,16 +128,21 @@ class ProductController extends Controller
             'content',
             'quantity',
             'price',    
-            'image'
+            'image',
+            'category_id'
         ]);
 
-        $updateFlag = $this->productService->update($id, $data);
-        if($updateFlag) {
+        $product = Product::findOrFail($id);
 
-            return redirect('admin/products/')->with('status', 'Update success');
+        try {
+            $product->update($data);
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return back()->with('status', 'Update faild.');
         }
 
-        return back()->withInput($data)->with('status', 'Update faild');    
+        return redirect('admin/products/')->with('status', 'Update success.'); 
     }
 
     /**
@@ -141,13 +153,17 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $deleteFlag = $this->productService->delete($id);
-        if($deleteFlag) {
+        $product = Product::findOrFail($id);
 
-            return redirect('admin/products')->with('status', 'Delete success');
+        try {
+            $product->delete();
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return back()->with('status', 'Delete faild.');
         }
 
-       return back()->with('status', 'Delete faild');
+        return redirect('admin/products')->with('status', 'Delete success');
     }
 
     private function upload($file) 

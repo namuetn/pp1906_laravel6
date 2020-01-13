@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,8 +19,22 @@ class ProductController extends Controller
     public function index()
     {   
         $products = Product::paginate(config('product.page_size'));
+        $categories = Category::where('parent_id','<>', null)->get();
         
-        return view('/products.index', ['products' => $products]);
+        return view('/products.index', ['products' => $products, 'categories' => $categories]);
+    }
+
+    public function ajaxHideShowCategory(Request $request)
+    {
+        $categoryId = $request->category_id;
+        // $category = Category::findOrFail($categoryId);
+        $products = Product::where('category_id', $categoryId)->get();
+        // foreach ($products as  $product) {    
+        //     dd($product); 
+        // }
+        // $result = ['product' => $product->category->id];
+        
+        return response()->json($products);
     }
 
     /**
