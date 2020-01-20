@@ -28,6 +28,7 @@
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Category</th>
+                <th>Size</th>
                 <th>Created by</th>
                 <th>Updated at</th>
                 <th>Created at</th>
@@ -36,12 +37,20 @@
         </thead>
         <tbody>	
             @foreach($products as $product)
+                
                 <tr>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->content }}</td>
                     <td>{{ $product->quantity }}</td>
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->category ? $product->category->name : '' }}</td>
+                    
+                    <td>
+                        @foreach($product->sizes as $productSize)
+                            {{ $productSize->name ?? '' }},
+                        @endforeach
+                    </td>
+
                     <td>{{ $product->user ? $product->user->name : '' }}</td>
                     <td>{{ $product->updated_at }}</td>
                     <td>{{ $product->created_at }}</td>
@@ -61,6 +70,7 @@
                         </form>
                     </td>
                 </tr>
+                
             @endforeach
         </tbody>
         <tfoot>
@@ -70,6 +80,7 @@
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Category</th>
+                <th>Size</th>
                 <th>Created by</th>
                 <th>Updated at</th>
                 <th>Created at</th>

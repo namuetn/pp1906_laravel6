@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Size;
 // use App\Services\ProductService;
 
 
@@ -26,7 +27,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('sizes')->get();
         return view('admin.products.index', ['products' => $products]);
     }
 
@@ -38,8 +39,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::where('parent_id','<>',null)->get();
-
-        return view('admin.products.create', ['categories' => $categories]);
+        $sizes = Size::all();
+        return view('admin.products.create', ['categories' => $categories, 'sizes' => $sizes]);
     }
 
     /**
@@ -57,10 +58,13 @@ class ProductController extends Controller
             'category_id',
             'quantity',
             'price',
-            'image'
+            'image',
         ]);
 
+
         $data['user_id'] = Auth::id();
+        // dd($data);
+        //--------upload images--------------
         $uploaded = $this->upload($data['image']);
     
         if (!$uploaded['status']) {
@@ -68,8 +72,11 @@ class ProductController extends Controller
         }
 
         $data['image'] = $uploaded['file_name'];
+        $sizeIds = $request->input('size');
+        //------------------------------------
         try {
             $product = Product::create($data);
+            $product->sizes()->attach($sizeIds, ['quantity' => $product->quantity]);
         } catch (\Exception $e) {
             \Log::error($e);
 
