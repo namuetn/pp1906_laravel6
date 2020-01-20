@@ -71,7 +71,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="category_id" class="col-md-4 col-form-label text-md-right">{{ __('category_id') }}</label>
+                            <label for="category_id" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
 
                             <div class="col-md-6">
 
@@ -87,6 +87,16 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="size" class="col-md-4 col-form-label text-md-right">{{ __('Size') }}</label>
+
+                            <div class="col-md-6">
+                                @foreach($sizes as $size)
+                                    <input type="checkbox" name="size[]" value="{{$size->id}}"> {{$size->name}}<br>
+                                @endforeach
                             </div>
                         </div>
 
