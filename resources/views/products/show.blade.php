@@ -82,7 +82,7 @@
 						<div class="product_quantity_container">
 							<span>Quantity</span>
 							<div class="product_quantity clearfix">
-								<input id="quantity_input" type="text" pattern="[0-9]*" value="{{$product->quantity}}">
+								<input id="quantity_input" name="quantity" type="text" pattern="[0-9]*" value="1">
 								<div class="quantity_buttons">
 									<div id="quantity_inc_button" class="quantity_inc quantity_control"><i class="fa fa-caret-up" aria-hidden="true"></i></div>
 									<div id="quantity_dec_button" class="quantity_dec quantity_control"><i class="fa fa-caret-down" aria-hidden="true"></i></div>
@@ -94,29 +94,15 @@
 							<span>Size</span>
 							<div class="product_size">
 								<ul class="d-flex flex-row align-items-start justify-content-start">
+									@foreach($sizes as $size)
 									<li>
-										<input type="radio" id="radio_1" name="product_radio" class="regular_radio radio_1">
-										<label for="radio_1">XS</label>
+										<input type="radio" id="radio_{{$size->id}}" name="product_radio" class="regular_radio radio_{{$size->id}}">
+										<label for="radio_{{$size->id}}" data-size-id="{{$size->id}}">{{ $size->name }}</label>
 									</li>
-									<li>
-										<input type="radio" id="radio_2" name="product_radio" class="regular_radio radio_2" checked>
-										<label for="radio_2">S</label>
-									</li>
-									<li>
-										<input type="radio" id="radio_3" name="product_radio" class="regular_radio radio_3">
-										<label for="radio_3">M</label>
-									</li>
-									<li>
-										<input type="radio" id="radio_4" name="product_radio" class="regular_radio radio_4">
-										<label for="radio_4">L</label>
-									</li>
-									<li>
-										<input type="radio" id="radio_5" name="product_radio" class="regular_radio radio_5">
-										<label for="radio_5">XL</label>
-									</li>
+									@endforeach
 								</ul>
 							</div>
-							<div class="button cart_button"><a href="#">add to cart</a></div>
+							<div class="button cart_button add_to_cart" data-product-id="{{$product->id}}" ><a>add to cart</a></div>
 						</div>
 					</div>
 				</div>
@@ -203,4 +189,5 @@
 <script src="theme/plugins/easing/easing.js"></script>
 <script src="theme/plugins/parallax-js-master/parallax.min.js"></script>
 <script src="theme/js/product_custom.js"></script>
+<script src="{{ asset('js/add_to_cart_one_product.js') }}"></script>
 @endsection
