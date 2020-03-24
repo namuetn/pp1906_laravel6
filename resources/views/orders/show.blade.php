@@ -66,7 +66,7 @@
                                         <!-- Product Image -->
                                         <div class="cart_product_image"><img src=" {{ asset(config('product.image_path') . $product->image) }}" style="width: 120px" alt=""></div>
                                         <!-- Product Name -->
-                                        <div class="cart_product_name"><a href="product.html">{{ $product->name }}</a></div>
+                                        <div class="cart_product_name"><a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a></div>
                                         <div class="cart_product_info ml-auto">
                                             <div class="cart_product_info_inner d-flex flex-row align-items-center justify-content-md-end justify-content-start">
                                                 <!-- Product Price -->
@@ -101,37 +101,17 @@
                 <div class="row">
                     <div class="col">
                         <div class="cart_control_bar d-flex flex-md-row flex-column align-items-start justify-content-start">
-                            <button class="button_clear cart_button">clear cart</button>
-                            <button class="button_update cart_button">update cart</button>
                             <button class="button_update cart_button_2 ml-md-auto">continue shopping</button>
                         </div>
                     </div>
                 </div>
             
             <div class="row cart_extra">
-                <!-- Cart Coupon -->
-                <div class="col-lg-6">
-                    <div class="cart_coupon">
-                        <div class="cart_title">coupon code</div>
-                        <form action="#" class="cart_coupon_form d-flex flex-row align-items-start justify-content-start" id="cart_coupon_form">
-                            <input type="text" class="cart_coupon_input" placeholder="Coupon code" required="required">
-                            <button class="button_clear cart_button_2">apply coupon</button>
-                        </form>
-                    </div>
-                </div>
                 <!-- Cart Total -->
                 <div class="col-lg-5 offset-lg-1">
                     <div class="cart_total">
                         <div class="cart_title">cart total</div>
                         <ul>
-                            <li class="d-flex flex-row align-items-center justify-content-start">
-                                <div class="cart_total_title">Subtotal</div>
-                                <div class="total-price cart_total_price ml-auto">${{ $order ? $order->total_price : 0}}</div>
-                            </li>
-                            <li class="d-flex flex-row align-items-center justify-content-start">
-                                <div class="cart_total_title">Shipping</div>
-                                <div class="cart_total_price ml-auto">$5.00</div>
-                            </li>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="cart_total_title">Total</div>
                                 <div class="total-price cart_total_price ml-auto">${{ $order ? $order->total_price : 0 }}</div>

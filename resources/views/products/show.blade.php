@@ -18,7 +18,7 @@
 							<div class="breadcrumbs">
 								<ul>
 									<li><a href="index.html">Home</a></li>
-									<li>Woman</li>
+									<li>Clother</li>
 									<li>Swimsuits</li>
 								</ul>
 							</div>
@@ -37,7 +37,7 @@
 				<div class="col">
 					<div class="current_page">
 						<ul>
-							<li><a href="categories.html">Woman's Fashion</a></li>
+							<li><a href="categories.html">Clothers</a></li>
 							<li><a href="categories.html">Swimsuits</a></li>
 							<li>{{$product->name}}</li>
 						</ul>
@@ -50,11 +50,6 @@
 				<div class="col-lg-7">
 					<div class="product_image">
 						<div class="product_image_large"><img src=" {{ asset(config('product.image_path') . $product->image) }}" alt=""></div>
-						<div class="product_image_thumbnails d-flex flex-row align-items-start justify-content-start">
-							<div class="product_image_thumbnail" style="background-image:url(theme/images/product_image_1.jpg)" data-image="images/product_image_1.jpg"></div>
-							<div class="product_image_thumbnail" style="background-image:url(theme/images/product_image_2.jpg)" data-image="images/product_image_2.jpg"></div>
-							<div class="product_image_thumbnail" style="background-image:url(theme/images/product_image_4.jpg)" data-image="images/product_image_4.jpg"></div>
-						</div>
 					</div>
 				</div>
 
@@ -63,13 +58,6 @@
 					<div class="product_content">
 						<div class="product_name">{{$product->name}}</div>
 						<div class="product_price">${{$product->price}}</div>
-						<div class="rating rating_4" data-rating="4">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</div>
 						<!-- In Stock -->
 						<div class="in_stock_container">
 							<div class="in_stock in_stock_true"></div>
@@ -117,77 +105,6 @@
 								</ul>
 							</div>
 							<div class="button cart_button"><a href="#">add to cart</a></div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Reviews -->
-
-			<div class="row">
-				<div class="col">
-					<div class="reviews">
-						<div class="reviews_title">reviews</div>
-						<div class="reviews_container">
-							<ul>
-								<!-- Review -->
-								<li class=" review clearfix">
-									<div class="review_image"><img src="theme/images/review_1.jpg" alt=""></div>
-									<div class="review_content">
-										<div class="review_name"><a href="#">Maria Smith</a></div>
-										<div class="review_date">Nov 29, 2017</div>
-										<div class="rating rating_4 review_rating" data-rating="4">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-										<div class="review_text">
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis quam ipsum. Pellentesque consequat tellus non tortor tempus, id egestas elit iaculis. Proin eu dui porta, pretium metus vitae, pharetra odio. Sed ac mi commodo, pellentesque erat eget, accumsan justo. Etiam sed placerat felis. Proin non rutrum ligula. </p>
-										</div>
-									</div>
-								</li>
-								<!-- Review -->
-								<li class=" review clearfix">
-									<div class="review_image"><img src="theme/images/review_2.jpg" alt=""></div>
-									<div class="review_content">
-										<div class="review_name"><a href="#">Maria Smith</a></div>
-										<div class="review_date">Nov 29, 2017</div>
-										<div class="rating rating_4 review_rating" data-rating="4">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-										<div class="review_text">
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis quam ipsum. Pellentesque consequat tellus non tortor tempus, id egestas elit iaculis. Proin eu dui porta, pretium metus vitae, pharetra odio. Sed ac mi commodo, pellentesque erat eget, accumsan justo. Etiam sed placerat felis. Proin non rutrum ligula. </p>
-										</div>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Leave a Review -->
-
-			<div class="row">
-				<div class="col">
-					<div class="review_form_container">
-						<div class="review_form_title">leave a review</div>
-						<div class="review_form_content">
-							<form action="#" id="review_form" class="review_form">
-								<div class="d-flex flex-md-row flex-column align-items-start justify-content-between">
-									<input type="text" class="review_form_input" placeholder="Name" required="required">
-									<input type="email" class="review_form_input" placeholder="E-mail" required="required">
-									<input type="text" class="review_form_input" placeholder="Subject">
-								</div>
-								<textarea class="review_form_text" name="review_form_text" placeholder="Message"></textarea>
-								<button type="submit" class="review_form_button">leave a review</button>
-							</form>
 						</div>
 					</div>
 				</div>
