@@ -57,7 +57,6 @@ $(document).ready(function(){
                 data: data,
                 success: function(result) {
                     if (result.status) {
-                        console.log($('.total-price').text('$' + result.total_price));
                         $('.total-price').text('$' + result.total_price);
                         $('.cart_num').text(result.quantity);
                     }

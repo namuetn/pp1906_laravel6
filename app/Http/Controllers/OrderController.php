@@ -67,6 +67,55 @@ class OrderController extends Controller
         return response()->json($result);
     }
     
+    public function storeOneProduct(Request $request)
+    {
+        $productId = $request->product_id;
+        $quantity = $request->quantity;
+        $product = Product::findOrFail($productId);
+        $currentUserId = auth()->id();
+
+        $orderData = [
+            'user_id' => $currentUserId,
+            'total_price' => $product->price,
+            'description' => 'abc',
+        ];
+        $order = Order::where('user_id', $currentUserId)->where('status', 1)->first(); 
+        
+        try {
+            if (is_null($order)) {
+                $order = Order::create($orderData);
+            }
+
+            $productOrder = ProductOrder::where('order_id', $order->id)
+                ->where('product_id', $product->id)
+                ->first();
+
+            if ($productOrder) {
+                $productOrder->increment('quantity', $quantity);
+            } else {
+                $product->orders()->attach($order->id, ['quantity' => $quantity, 'price' => $product->price]);
+            }
+
+            $totalPrice = $this->totalPrice($order);
+            $order->update(['total_price' => $totalPrice]);  
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            $result = [
+                'status' => false,
+                'quantity' => 0,
+            ];
+
+            return response()->json($result);
+        }
+
+        $result = [
+            'status' => true,
+            'quantity' => $order->products->sum('pivot.quantity'),
+        ];
+
+        return response()->json($result);
+    }
     /** 
     *   Caculater 
     *   @param App\Models\Order $order
