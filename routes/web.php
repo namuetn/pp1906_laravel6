@@ -32,6 +32,7 @@ Route::get('/products/category/{category}', 'ProductController@ajaxHideShowCateg
 
 Route::middleware(['auth'])->group(function () {
     Route::post('orders','OrderController@store')->name('orders.store');
+    Route::post('orders/{product}','OrderController@storeOneProduct')->name('orders.storeOneProduct');
     Route::get('carts', 'OrderController@showCart')->name('orders.show');
     Route::post('orders/update', 'OrderController@updateCart')->name('orders.update');
     Route::post('orders/delete', 'OrderController@destroyProduct')->name('orders.product.destroy');

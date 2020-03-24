@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Size;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,8 +57,8 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        $data = ['product' => $product];
-        // $data = compact('product');
+        $sizes = Size::all();
+        $data = ['product' => $product, 'sizes' => $sizes];
 
         return view('/products.show', $data);
     }
