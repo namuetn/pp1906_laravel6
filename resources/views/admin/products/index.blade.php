@@ -55,9 +55,9 @@
                     <td>{{ $product->updated_at }}</td>
                     <td>{{ $product->created_at }}</td>
                     <td>
-                        <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-light">Edit</a>
+                        <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-info">Edit</a>
 
-                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST">
+                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
                             <div class="form-group row mb-0">
@@ -103,8 +103,8 @@
 
 @section('js')
 <script type="text/javascript">
-	$(document).ready(function() {
-    	$('#example').DataTable();
-	} );
+	 $('#example').DataTable( {
+        "order": [[ 8, "desc" ]]
+    } );
 </script>
 @endsection

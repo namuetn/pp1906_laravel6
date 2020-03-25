@@ -32,14 +32,14 @@
                     <td>{{ $category->updated_at }}</td>
                     
                     <td>
-                        <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-light">Edit</a>
+                        <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-info">Edit</a>
 
-                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
+                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <div class="form-group row mb-0">
+                            <div class="form-group row mb-0" >
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-danger">
+                                    <button type="submit" class="btn btn-danger" >
                                         {{ __('Delete') }}
                                     </button>
                                 </div>

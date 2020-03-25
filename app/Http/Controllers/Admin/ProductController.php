@@ -27,7 +27,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('sizes')->get();
+        $products = Product::orderBy('created_at', 'DESC')->get();
+        
         return view('admin.products.index', ['products' => $products]);
     }
 
@@ -40,6 +41,7 @@ class ProductController extends Controller
     {
         $categories = Category::where('parent_id','<>',null)->get();
         $sizes = Size::all();
+
         return view('admin.products.create', ['categories' => $categories, 'sizes' => $sizes]);
     }
 

@@ -18,7 +18,7 @@ $(document).ready(function(){
             data: data,
             success: function(result) {
                 $('.cart_num').text(result.quantity);
-                alert('Order success!');
+                swal("Hello world!");
             },
             error: function() {
                 alert('Please login before order');
