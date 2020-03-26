@@ -15,40 +15,53 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/shop', function () {
-    return view('layouts_wish.home_shop');
-});
-
-Route::get('/category', function () {
-    return view('layouts_wish.category_shop');
-});
-
-Route::get('/cart', function () {
-    return view('layouts_wish.cart_shop');
-});
-
-Route::get('/checkout', function () {
-    return view('layouts_wish.checkout_shop');
-});
-
-Route::get('/contact', function () {
-    return view('layouts_wish.contact_shop');
-});
-
-Route::get('/product', function () {
-    return view('layouts_wish.product_shop');
-});
-
+//---------------------------------------------
 Route::get('/products', 'ProductController@index')->name('products.index');
-
 Route::get('/products/create', 'ProductController@create')->name('products.create');
-
+Route::post('products', 'ProductController@store')->name('products.store');
 Route::get('/products/{product}', 'ProductController@show')->name('products.show');
+Route::get('/products/{product}/edit', 'ProductController@edit')->name('products.edit');
+Route::put('/products/{product}', 'ProductController@update')->name('products.update');
+Route::delete('/products/{product}', 'ProductController@destroy')->name('products.destroy');
+Route::get('/products/category/{category}', 'ProductController@ajaxHideShowCategory');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('orders','OrderController@store')->name('orders.store');
+    Route::get('carts', 'OrderController@showCart')->name('orders.show');
+    Route::post('orders/update', 'OrderController@updateCart')->name('orders.update');
+    Route::post('orders/delete', 'OrderController@destroyProduct')->name('orders.product.destroy');
+});
+
+//--------------------------------------------------
+
+Route::get('/admin', function() {
+	view('admin.dashboard');
+})->name('admin.dashboard')->middleware(['auth', 'verified']);
+
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
+	Route::resource('products', 'ProductController');
+	Route::resource('categories', 'CategoryController');
+	Route::resource('orders', 'OrderController');
+});
+
+
+
+//-----------------ajax---------------------------
 
 
 
 
+
+
+
+
+Auth::routes();
+
+Route::get('/home', function() {
+    return view('home');
+})->name('home')->middleware('auth');

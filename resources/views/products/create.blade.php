@@ -13,13 +13,19 @@
 
 @section('content')
 <div class="container" style="margin-top: 150px; margin-bottom: 50px;">
+	@if (session('status'))
+        <div class="alert alert-danger">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="row justify-content-center">
+
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Create product') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('admin.products.store') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -40,7 +46,7 @@
                             <label for="content" class="col-md-4 col-form-label text-md-right">{{ __('Content') }}</label>
 
                             <div class="col-md-6">
-                                <textarea id="content" type="content" class="form-control @error('content') is-invalid @enderror" name="content" value="{{ old('content') }}" required autocomplete="content"></textarea>
+                                <textarea id="content" type="content" class="form-control @error('content') is-invalid @enderror" name="content"  required autocomplete="content">{{ old('content') }}</textarea>
 
                                 @error('content')
                                     <span class="invalid-feedback" role="alert">
@@ -54,7 +60,7 @@
                             <label for="quantity" class="col-md-4 col-form-label text-md-right">{{ __('Quantity') }}</label>
 
                             <div class="col-md-6">
-                                <input id="quantity" type="text" class="form-control @error('quantity') is-invalid @enderror" name="quantity" required autocomplete="new-quantity">
+                                <input id="quantity" type="text" class="form-control @error('quantity') is-invalid @enderror" name="quantity" required autocomplete="new-quantity" value="{{ old('quantity') }}">
 
                                 @error('quantity')
                                     <span class="invalid-feedback" role="alert">
@@ -68,7 +74,7 @@
                             <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
 
                             <div class="col-md-6">
-                                <input id="price" type="text" class="form-control" name="price" required autocomplete="new-price">
+                                <input id="price" type="text" class="form-control" name="price" required autocomplete="new-price" value="{{ old('price') }}">
                             </div>
                         </div>
 
