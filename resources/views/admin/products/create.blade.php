@@ -91,16 +91,6 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="size" class="col-md-4 col-form-label text-md-right">{{ __('Size') }}</label>
-
-                            <div class="col-md-6">
-                                @foreach($sizes as $size)
-                                    <input type="checkbox" name="size[]" value="{{$size->id}}"> {{$size->name}}<br>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
                             <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
 
                             <div class="col-md-6">

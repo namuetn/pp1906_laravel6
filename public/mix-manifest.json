@@ -3,5 +3,6 @@
     "/js/ajax_category.js": "/js/ajax_category.js",
     "/js/ajax_update_delete_orders.js": "/js/ajax_update_delete_orders.js",
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/sweetalert.min.js": "/js/sweetalert.min.js"
 }

@@ -46,6 +46,7 @@ Route::get('/admin', function() {
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
 	Route::resource('products', 'ProductController');
 	Route::resource('categories', 'CategoryController');
+	Route::resource('orders', 'OrderController');
 });
 
 

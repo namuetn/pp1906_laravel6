@@ -161,5 +161,6 @@
 <script src="theme/js/categories_custom.js"></script>
 <script src="{{ asset('js/add_to_cart.js') }}"></script>
 <script src="{{ asset('js/ajax_category.js') }}"></script>
+<script src="{{ asset('js/sweetalert.min.js') }}"></script>
 @endsection 
 	
