@@ -27,11 +27,6 @@ class Product extends Model
         return $this->belongsToMany('App\Models\Order', 'product_order');
     }
 
-     public function sizes() {
-        
-        return $this->belongsToMany('App\Models\Size', 'product_size');
-    }
-
     public function category() {
         
         return $this->belongsTo('App\Models\Category');

@@ -19,10 +19,10 @@ $(document).ready(function(){
             data: data,
             success: function(result) {
                 $('.cart_num').text(result.quantity);
-                alert('Order success!');
+                swal("Order success!", "", "success");
             },
             error: function() {
-                alert('Please login before order');
+                swal("Please login before order!");
                 window.location.href = '/login';
 
                // location.reload();

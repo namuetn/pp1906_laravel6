@@ -16,6 +16,5 @@ mix.js('resources/js/app.js', 'public/js')
    .js('resources/js/ajax_update_delete_orders.js', 'public/js')
    .js('resources/js/add_to_cart.js', 'public/js')
    .js('resources/js/add_one_product_to_cart.js', 'public/js')
-   .js('resources/js/ajax_category.js', 'public/js')
    .js('node_modules/sweetalert/dist/sweetalert.min.js', 'public/js')
    .copyDirectory('resources/views/theme/wish/','public/theme/');

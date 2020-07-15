@@ -17,24 +17,20 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $products = Product::paginate(config('product.page_size'));
         $categories = Category::whereNotNull('parent_id')->get();
-        
+
         return view('/products.index', ['products' => $products, 'categories' => $categories]);
     }
 
-    public function ajaxHideShowCategory(Request $request)
+    public function showProductByCategory($id)
     {
-        $categoryId = $request->category_id;
-        // $category = Category::findOrFail($categoryId);
-        $products = Product::where('category_id', $categoryId)->get();
-        // foreach ($products as  $product) {    
-        //     dd($product); 
-        // }
-        // $result = ['product' => $product->category->id];
-        
-        return response()->json($products);
+       $category = Category::findOrFail($id);
+       $products = Product::where('category_id', $category->id)->paginate(3);
+       $categories = Category::whereNotNull('parent_id')->get();
+
+        return view('/products.showProductByCategory', ['products' => $products, 'categories' => $categories]);
     }
 
     /**
@@ -43,7 +39,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    { 
+    {
         return view('/products.create');
     }
 

@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\Negative;
+use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -27,19 +29,37 @@ class ProductRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {  
-        return [
-            'name' => 'required|unique:products|max:255',
-            'content' => 'required',
-            'quantity' => 'required|integer',
-            'price' => 'required|integer',
-        ];
+    {   
+        if($this->method() == 'POST') {
+            return [
+                'name' => [
+                    'required', 
+                    Rule::unique('products')->ignore($this->product), 
+                    'max:255'],
+                'content' => 'required',
+                'image' => 'required',
+                'category_id' => 'required',
+                'quantity' => ['required', 'integer', new Negative],
+                'price' => ['required', 'integer', new Negative],
+            ];
+        } else {
+            return [
+                'name' => [
+                    'required', 
+                    Rule::unique('products')->ignore($this->product), 
+                    'max:255'],
+                'content' => 'required',
+                'category_id' => 'required',
+                'quantity' => ['required', 'integer', new Negative],
+                'price' => ['required', 'integer', new Negative],
+            ];
+        }
     }
 
     public function messages()
     {
         return [
-            'name.unique' => 'Tên ngừoi dùng đã bị trùng lặp!'
+            'name.unique' => 'Product name already exists!'
         ];
     }
 }

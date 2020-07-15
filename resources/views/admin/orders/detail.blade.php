@@ -1,10 +1,7 @@
 @extends('adminlte::page')
 
-
-
-
 @section('content')
-<h1>Order List</h1>
+<h1>Order {{$orders->id}}</h1>
 @if (session('status'))
     <div class="alert alert-success">
         {{ session('status') }}
@@ -13,38 +10,27 @@
 <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Total price</th>
-                <th>Status</th>
-                <th>Created at</th>
-                <th>Updated at</th>
-                <th>Operation</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
             </tr>
         </thead>
         <tbody>	
-            @foreach($orders as $order)
+            @foreach($orders->products as $order_product)
                 <tr>
-                    <td>{{ $order->id }}</td>
-                    <td>{{ $order->total_price ?? '' }}</td>
-                    <td>{{ $order->status }}</td>
-                    <td>{{ $order->updated_at }}</td>
-                    <td>{{ $order->updated_at }}</td>
-                    
-                    <td>
-                        <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-info">Edit</a>
-                        <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-primary">Show</a>
-                    </td>
+                    <td>{{$order_product->name}}</td>
+                    <td>{{$order_product->pivot->quantity}}</td>
+                    <td>${{$order_product->pivot->quantity * $order_product->price }}</td>
                 </tr>
+
             @endforeach
+
         </tbody>
         <tfoot>
             <tr>
-                <th>Id</th>
-                <th>Total price</th>
-                <th>Status</th>
-                <th>Created at</th>
-                <th>Updated at</th>
-                <th>Operation</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
             </tr>
         </tfoot>
     </table>

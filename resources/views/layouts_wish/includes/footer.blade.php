@@ -7,11 +7,8 @@
 					<div class="footer_logo"><a href="#">Wish</a></div>
 					<nav class="footer_nav">
 						<ul>
-							<li><a href="index.html">home</a></li>
-							<li><a href="categories.html">clothes</a></li>
-							<li><a href="categories.html">accessories</a></li>
-							<li><a href="categories.html">lingerie</a></li>
-							<li><a href="contact.html">contact</a></li>
+							<li><a href="#">home</a></li>
+							<li><a href="/products">clothes</a></li>
 						</ul>
 					</nav>
 					<div class="footer_social">

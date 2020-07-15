@@ -19,7 +19,6 @@
 								<ul>
 									<li><a href="index.html">Home</a></li>
 									<li>Clother</li>
-									<li>Swimsuits</li>
 								</ul>
 							</div>
 						</div>
@@ -37,8 +36,7 @@
 				<div class="col">
 					<div class="current_page">
 						<ul>
-							<li><a href="categories.html">Clothers</a></li>
-							<li><a href="categories.html">Swimsuits</a></li>
+							<li><a href="/products">Clothers</a></li>
 							<li>{{$product->name}}</li>
 						</ul>
 					</div>
@@ -79,7 +77,7 @@
 						</div>
 						<!-- Product Size -->
 						<div class="product_size_container">
-							<div class="button cart_button"><a class="add_to_cart" data-product-id="{{ $product->id }}">add to cart</a></div>
+							<div class="button cart_button"><a class="add_to_cart" data-product-id="{{ $product->id }}" style="cursor: pointer;">add to cart</a></div>
 						</div>
 					</div>
 				</div>
@@ -96,4 +94,6 @@
 <script src="theme/plugins/parallax-js-master/parallax.min.js"></script>
 <script src="theme/js/product_custom.js"></script>
 <script src="{{ asset('js/add_one_product_to_cart.js') }}"></script>
+<script src="{{ asset('js/sweetalert.min.js') }}"></script>
+
 @endsection

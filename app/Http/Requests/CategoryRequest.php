@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CategoryRequest extends FormRequest
 {
@@ -29,14 +30,14 @@ class CategoryRequest extends FormRequest
     public function rules()
     {  
         return [
-            'name' => 'required|unique:categories|max:255',
+            'name' => ['required', Rule::unique('categories')->ignore($this->category), 'max:255'],
         ];
     }
 
     public function messages()
     {
         return [
-            'name.unique' => 'Tên ngừoi dùng đã bị trùng lặp!'
+            'name.unique' => 'Category name already exists!'
         ];
     }
 }

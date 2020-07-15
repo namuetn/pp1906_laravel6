@@ -22,12 +22,6 @@
 							</div>
 						</div>
 					</a>
-					<!-- Avatar -->
-					<a href="#">
-						<div class="avatar">
-							<img src="theme/images/avatar.svg" alt="">
-						</div>
-					</a>
 				</div>
 			</div>
 

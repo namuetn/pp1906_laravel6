@@ -152,6 +152,7 @@ class OrderController extends Controller
         $currentUser = auth()->user();
         $productId = $request->product_id;
         $quantity = $request->quantity;
+        // $priceOnePro = $quantity * $price;
         $order = $currentUser->orders()->where('status', 1)->first();
 
         try {
@@ -165,6 +166,7 @@ class OrderController extends Controller
 
         return response()->json([
             'status' => $updateFlag,
+            // 'price' => $priceOnePro,
             'total_price' => $totalPrice,
             'quantity' => $order->products->sum('pivot.quantity'),
         ]);
@@ -199,4 +201,19 @@ class OrderController extends Controller
 
         return response()->json($result);
     }
+
+    // public function checkOut(Request $request)
+    // {
+    //     $currentUser = auth()->user();
+    //     $order  = Order::where('status', 1)->where('users', $currentUser)->first();
+
+    //     try {
+    //         $order->update(['status' => 2]);
+    //     } catch (\Exception $e) {
+
+    //         return back()->with('status', 'Update false.');
+    //     }
+
+    //     return redirect('products/'); 
+    // }
  }

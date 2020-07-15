@@ -10,12 +10,12 @@
         {{ session('status') }}
     </div>
 @endif
-<div><a href="/admin/categories/create" class="btn btn-primary">Create</a></div>
+<div><a href="/admin/categories/create" class="btn btn-primary">Create</a></div><br>
 <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Parent_id</th>
+                <th>Parent Category</th>
                 <th>User_id</th>
                 <th>Created at</th>
                 <th>Updated at</th>
@@ -52,7 +52,7 @@
         <tfoot>
             <tr>
                 <th>Name</th>
-                <th>Parent_id</th>
+                <th>Parent category</th>
                 <th>User_id</th>
                 <th>Created at</th>
                 <th>Updated at</th>

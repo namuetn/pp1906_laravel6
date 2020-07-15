@@ -53,13 +53,15 @@
 								</ul>
 							</div>
 						</div>
-
 					</div>
 
 					<div class="current_page"><b style="font-size: 20px">Clothers</b></div>
 				</div>
 				<div class="col-12">
 					<div class="product_sorting clearfix">
+						<div class="sorting">
+							
+						</div>
 					</div>
 				</div>
 			</div>
@@ -100,7 +102,7 @@
 					
 			</div>
 			<div>{{ $products->links('vendor.pagination.bootstrap-4') }}</div>
-
+			
 		</div>
 	</div>
 	
@@ -120,4 +122,3 @@
 <script src="{{ asset('js/add_to_cart.js') }}"></script>
 <script src="{{ asset('js/sweetalert.min.js') }}"></script>
 @endsection 
-	

@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware([]);
 
 //---------------------------------------------
 Route::get('/products', 'ProductController@index')->name('products.index');
@@ -27,15 +27,16 @@ Route::get('/products/{product}', 'ProductController@show')->name('products.show
 Route::get('/products/{product}/edit', 'ProductController@edit')->name('products.edit');
 Route::put('/products/{product}', 'ProductController@update')->name('products.update');
 Route::delete('/products/{product}', 'ProductController@destroy')->name('products.destroy');
-Route::get('/products/category/{category}', 'ProductController@ajaxHideShowCategory');
+Route::get('/products/category/{category}', 'ProductController@showProductByCategory')->name('products.showProductByCategory');
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('orders','OrderController@store')->name('orders.store');
-    Route::post('orders/{product}','OrderController@storeOneProduct')->name('orders.storeOneProduct');
     Route::get('carts', 'OrderController@showCart')->name('orders.show');
     Route::post('orders/update', 'OrderController@updateCart')->name('orders.update');
     Route::post('orders/delete', 'OrderController@destroyProduct')->name('orders.product.destroy');
+    Route::post('orders/{product}','OrderController@storeOneProduct')->name('orders.storeOneProduct');
+    // Route::post('orders/checkout', 'OrderController@checkOut')->name('orders.checkout');
 });
 
 //--------------------------------------------------

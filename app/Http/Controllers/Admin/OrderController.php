@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::orderByRaw('updated_at - created_at DESC')->get();
+        $orders = Order::orderByRaw('created_at - updated_at DESC')->get();
         return view('admin.orders.index', ['orders' => $orders]);
     }
 
@@ -27,17 +27,17 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $order = Order::findOrFail($id);
-        // $categories = Category::all();
-        $data = [
-            'order' => $order,
-            // 'categories' => $categories,
-        ];
+    // public function edit($id)
+    // {
+    //     $order = Order::findOrFail($id);
+    //     // $categories = Category::all();
+    //     $data = [
+    //         'order' => $order,
+    //         // 'categories' => $categories,
+    //     ];
 
-        return view('admin.orders.edit', $data);
-    }
+    //     return view('admin.orders.edit', $data);
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -46,27 +46,35 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    // public function update(Request $request, $id)
+    // {
+    //     $data = $request->only([
+    //         'name',
+    //         'content',
+    //         'quantity',
+    //         'price',    
+    //         'image',
+    //         'category_id'
+    //     ]);
+
+    //     $order = order::findOrFail($id);
+
+    //     try {
+    //         $order->update($data);
+    //     } catch (\Exception $e) {
+    //         \Log::error($e);
+
+    //         return back()->with('status', 'Update faild.');
+    //     }
+
+    //     return redirect('admin/orders/')->with('status', 'Update success.'); 
+    // }
+
+    public function show($id)
     {
-        $data = $request->only([
-            'name',
-            'content',
-            'quantity',
-            'price',    
-            'image',
-            'category_id'
-        ]);
-
-        $order = order::findOrFail($id);
-
-        try {
-            $order->update($data);
-        } catch (\Exception $e) {
-            \Log::error($e);
-
-            return back()->with('status', 'Update faild.');
-        }
-
-        return redirect('admin/orders/')->with('status', 'Update success.'); 
+        $orders = Order::findOrFail($id);
+        $data = ['orders' => $orders];
+        // $data = compact('product');
+        return view('admin.orders.detail', $data);
     }
 }

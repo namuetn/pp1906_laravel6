@@ -13,68 +13,60 @@
 
 @section('content')
 <div class="container">
-	@if (session('status'))
-        <div class="alert alert-danger">
-            {{ session('status') }}
-        </div>
-    @endif
-    <div class="row justify-content-center">
-
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Create Category') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('admin.categories.store') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="parent_id" class="col-md-4 col-form-label text-md-right">{{ __('Parent_id') }}</label>
-
-                            <div class="col-md-6">
-
-                                <select id="parent_id" class="form-control @error('parent_id') is-invalid @enderror" name="parent_id" value="{{old('parent_id')}}"  >
-                                    <option value="0">Select Parent</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{$category->id}}">{{$category->name}}</option>                                      
-                                    @endforeach    
-                                </select>
-
-                                @error('parent_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Create') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+  @if (session('status'))
+    <div class="alert alert-danger">
+        {{ session('status') }}
     </div>
+  @endif
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">{{__('Create Category')}}</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form class="form-horizontal" method="POST" action="{{ route('admin.categories.store') }}" enctype="multipart/form-data">
+      @csrf
+      @method('POST')
+      <div class="box-body">
+        <div class="form-group">
+          <label for="name" class="col-sm-2 control-label">{{__('Name')}}</label>
+
+          <div class="col-sm-10">
+            <input style="width: 545px" type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Name" value="{{ old('name') }}" autocomplete="name" autofocus>
+          </div>
+          @error('name')
+        <span class="invalid-feedback" style="padding-right: 200px" role="alert">
+            <strong style="padding-left: 207px; color: red">{{ $message }}</strong>
+        </span>
+        @enderror
+        </div>
+        <div class="form-group row">
+          <label for="parent_id" class="col-sm-2 control-label">{{ __('Parent') }}</label>
+           <div class="col-md-6">
+              <select id="parent_id" class="form-control @error('parent_id') is-invalid @enderror" name="parent_id" value="{{ old('parent_id') }}">
+                  <option value="">Select parent</option>
+                  @foreach ($categories as $cate)
+                      <option
+                          value="{{ $cate->id }}" {{ (isset($category->parent) && $cate->id == $category->parent->id) || ($cate->id == old('parent_id')) ? 'selected' : '' }}>
+                          {{ $cate->name }}
+                      </option>
+                  @endforeach
+              </select>
+              @error('parent_id')
+                  <span class="invalid-feedback" role="alert">
+                      <strong style="color: red">{{ $message }}</strong>
+                  </span>
+              @enderror
+          </div>
+        </div>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+        <button type="submit" class="btn btn-info">{{__('Create')}}</button>
+      </div>
+                <!-- /.box-footer -->
+    </form>
+  </div>
 </div>
 @endsection
 

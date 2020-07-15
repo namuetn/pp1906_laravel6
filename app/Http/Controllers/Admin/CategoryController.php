@@ -59,7 +59,8 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             \Log::error($e);
 
-            return back()->withInput($data)->with('status', 'Create failed!');
+            return redirect('/admin/categories/')
+            ->with('status', 'Create failse!');
         }
 
         return redirect('/admin/categories/')
@@ -89,7 +90,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::whereNull('parent_id')->get();
         $data = [
             'categories' => $categories,
             'category' => $category

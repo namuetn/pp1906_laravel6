@@ -19,7 +19,7 @@
         {{ session('status') }}
     </div>
 @endif
-<div><a href="/admin/products/create" class="btn btn-primary">Create</a></div>
+<div><a href="/admin/products/create" class="btn btn-primary">Create</a></div><br>
 <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
@@ -28,9 +28,8 @@
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Category</th>
-                <th>Size</th>
+                <th>Image</th>
                 <th>Created by</th>
-                <th>Updated at</th>
                 <th>Created at</th>
                 <th>Operation</th>
             </tr>
@@ -42,22 +41,15 @@
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->content }}</td>
                     <td>{{ $product->quantity }}</td>
-                    <td>{{ $product->price }}</td>
+                    <td>${{ $product->price }}</td>
                     <td>{{ $product->category ? $product->category->name : '' }}</td>
-                    
-                    <td>
-                        @foreach($product->sizes as $productSize)
-                            {{ $productSize->name ?? '' }},
-                        @endforeach
-                    </td>
-
+                    <td><img style="width: 100px; height: 140px" class="img-fluid" src=" {{ asset(config('product.image_path') . $product->image) }}" alt="{{ $product->image }}"></td>
                     <td>{{ $product->user ? $product->user->name : '' }}</td>
-                    <td>{{ $product->updated_at }}</td>
                     <td>{{ $product->created_at }}</td>
                     <td>
                         <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-info">Edit</a>
 
-                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display: inline;">
+                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="float:left;">
                             @csrf
                             @method('DELETE')
                             <div class="form-group row mb-0">
@@ -80,10 +72,9 @@
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Category</th>
-                <th>Size</th>
+                <th>Image</th>
                 <th>Created by</th>
                 <th>Updated at</th>
-                <th>Created at</th>
                 <th>Operation</th>
             </tr>
         </tfoot>

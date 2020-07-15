@@ -9,17 +9,10 @@ use App\Models\Category;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Size;
-// use App\Services\ProductService;
 
 
 class ProductController extends Controller
 {
-    // protected $productService;
-
-    // public function __construct(ProductService $productService) {
-    //     $this->productService = $productService;
-    // }
     /**
      * Display a listing of the resource.
      *
@@ -40,9 +33,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::where('parent_id','<>',null)->get();
-        $sizes = Size::all();
 
-        return view('admin.products.create', ['categories' => $categories, 'sizes' => $sizes]);
+        return view('admin.products.create', ['categories' => $categories]);
     }
 
     /**
@@ -63,7 +55,6 @@ class ProductController extends Controller
             'image',
         ]);
 
-
         $data['user_id'] = Auth::id();
         // dd($data);
         //--------upload images--------------
@@ -74,11 +65,9 @@ class ProductController extends Controller
         }
 
         $data['image'] = $uploaded['file_name'];
-        $sizeIds = $request->input('size');
         //------------------------------------
         try {
             $product = Product::create($data);
-            $product->sizes()->attach($sizeIds, ['quantity' => $product->quantity]);
         } catch (\Exception $e) {
             \Log::error($e);
 
@@ -114,7 +103,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::where('parent_id','<>',null)->get();
         $data = [
             'product' => $product,
             'categories' => $categories,
@@ -140,6 +129,8 @@ class ProductController extends Controller
             'image',
             'category_id'
         ]);
+
+        
 
         $product = Product::findOrFail($id);
 

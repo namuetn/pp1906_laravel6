@@ -13,7 +13,7 @@
 <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Name</th>
                 <th>Total price</th>
                 <th>Status</th>
                 <th>Created at</th>
@@ -24,22 +24,24 @@
         <tbody>	
             @foreach($orders as $order)
                 <tr>
-                    <td>{{ $order->id }}</td>
-                    <td>{{ $order->total_price ?? '' }}</td>
-                    <td>{{ $order->status }}</td>
+                    <td>Order {{ $order->id }}</td>
+                    <td>${{ $order->total_price ?? '' }}</td>
+                    <td>{{$order->status == 1}}
+                        
+                    </td>
                     <td>{{ $order->updated_at }}</td>
                     <td>{{ $order->updated_at }}</td>
                     
                     <td>
-                        <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-info">Edit</a>
-                        <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-primary">Show</a>
+                        <!-- <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-info">Edit</a> -->
+                        <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-primary">Detail</a>
                     </td>
                 </tr>
             @endforeach
         </tbody>
         <tfoot>
             <tr>
-                <th>Id</th>
+                <th>Name</th>
                 <th>Total price</th>
                 <th>Status</th>
                 <th>Created at</th>
